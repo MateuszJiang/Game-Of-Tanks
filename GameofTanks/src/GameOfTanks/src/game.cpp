@@ -12,10 +12,11 @@ GameElements::GameElements(sf::RenderWindow& rw, PLAYERS pl)
 		numberOfPlayers = 2;
 		tanks.add("One");
 		tanks.add("Two");
-		tanks.add();
-		tanks.get_tank(ONE).setPosition(200.f, 200.f);
+		//tanks.add();
+		tanks.get_tank(ONE).setPosition(500.f, 500.f);
 		tanks.get_tank(TWO).rotate(180);
-		tanks.get_tank(TWO).setPosition(2800.f, 1800.f);
+		tanks.get_tank(TWO).setPosition(1800.f, 800.f);
+		rounds = Rounds();
 		break;
 	case THREE_PLAYERS:
 		numberOfPlayers = 3;
@@ -61,10 +62,13 @@ GameElements::GameElements(GameElements* ref)
 
 void GameElements::interaction(TANK tank)
 {
+	std::cout << "HELLO" << std::endl;
 	for (int i = 0; i < rounds.get_size(); i++)
 	{
+		std::cout << "HELLO" << std::endl;
 		if (check_if_round_hits(tank, rounds[i]))
 		{
+			std::cout << "HELLO" << std::endl;
 			tanks[tank].decrease_health();
 			rounds.destroy_round(i);
 			if(! tanks[tank].get_health())
@@ -78,14 +82,17 @@ void GameElements::interaction(TANK tank)
 			}
 		}
 	}
-
+	std::cout << "HELLO1" << std::endl;
 	switch (tank)
 	{
 	case ONE:
 		{
+			std::cout << "HELLO1" << std::endl;
 			if (check_if_tank_intersects(tank))
 			{
+				std::cout << "HELLO1" << std::endl;
 				tanks[tank].set_position(300.f, 300.f);
+				std::cout << "HELLO1" << std::endl;
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !check_if_tank_intersects(tank))
 				tanks[tank].move(FORWARD);
@@ -181,20 +188,21 @@ bool GameElements::check_if_tank_intersects(TANK tank)
 	switch (tank)
 	{
 	case ONE:
+		std::cout << "HELLO2" << std::endl;
 		if (Collision::PixelPerfectTest(*tanks[tank].getTank(), *tanks[TWO].getTank()))
 			return true;
-		if (Collision::PixelPerfectTest(*tanks[tank].getTank(), *tanks[THREE].getTank()))
-			return true;
-		if (Collision::PixelPerfectTest(*tanks[tank].getTank(), *tanks[FOUR].getTank()))
-			return true;
+		//if (Collision::PixelPerfectTest(*tanks[tank].getTank(), *tanks[THREE].getTank()))
+			//return true;
+		//if (Collision::PixelPerfectTest(*tanks[tank].getTank(), *tanks[FOUR].getTank()))
+			//return true;
 		break;
 	case TWO:
 		if (Collision::PixelPerfectTest(*tanks[tank].getTank(), *tanks[ONE].getTank()))
 			return true;
-		if (Collision::PixelPerfectTest(*tanks[tank].getTank(), *tanks[THREE].getTank()))
-			return true;
-		if (Collision::PixelPerfectTest(*tanks[tank].getTank(), *tanks[FOUR].getTank()))
-			return true;
+		//if (Collision::PixelPerfectTest(*tanks[tank].getTank(), *tanks[THREE].getTank()))
+			//return true;
+		//if (Collision::PixelPerfectTest(*tanks[tank].getTank(), *tanks[FOUR].getTank()))
+			//return true;
 		break;
 	case THREE:
 		if (Collision::PixelPerfectTest(*tanks[tank].getTank(), *tanks[TWO].getTank()))
@@ -295,12 +303,12 @@ void GameElements::draw_tanks()
 {
 	interaction(ONE);
 	interaction(TWO);
-	interaction(THREE);
-	interaction(FOUR);
+	//interaction(THREE);
+	//interaction(FOUR);
 	window->draw(tanks.get_tank(ONE));
 	window->draw(tanks.get_tank(TWO));
-	window->draw(tanks.get_tank(THREE));
-	window->draw(tanks.get_tank(FOUR));
+	//window->draw(tanks.get_tank(THREE));
+	//window->draw(tanks.get_tank(FOUR));
 }
 
 void GameElements::draw_rounds()

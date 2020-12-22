@@ -72,66 +72,68 @@ int main()
 						case sf::Keyboard::Enter:
 							switch (menu.GetPressedItem())
 							{
-							case 0:
-								delete the_game;
-								number_of_players = TWO_PLAYERS;
-								the_game = new GameElements(main_window, PLAYERS(number_of_players));  // creating everything the game consists of
-								// (re)start the game
-								if (!is_playing)
-								{
-									is_playing = true;
-								}
-								// After Game Over
-								else if (!the_game->get_game_state())
-								{
-									is_playing = true;
-									the_game->reset_tanks();
-									the_game->reset_rounds();
-									the_game->game_turn_on();
-								}
-								break;
-							case 1:
-								delete the_game;
-								number_of_players = THREE_PLAYERS;
-								the_game = new GameElements(main_window, PLAYERS(number_of_players));  // creating everything the game consists of
-								// (re)start the game
-								if (!is_playing)
-								{
-									is_playing = true;
-								}
-								// After Game Over
-								else if (!the_game->get_game_state())
-								{
-									is_playing = true;
-									the_game->reset_tanks();
-									the_game->reset_rounds();
-									the_game->game_turn_on();
-								}
-								break;
-							case 2:
-								delete the_game;
-								number_of_players = FOUR_PLAYERS;
-								the_game = new GameElements(main_window, PLAYERS(number_of_players));  // creating everything the game consists of
-								// (re)start the game
-								if (!is_playing)
-								{
-									is_playing = true;
-								}
-								// After Game Over
-								else if (!the_game->get_game_state())
-								{
-									is_playing = true;
-									the_game->reset_tanks();
-									the_game->reset_rounds();
-									the_game->game_turn_on();
-								}
-								break;
-							case 3:
-								main_window.close();
-								break;
+								case 0:
+									delete the_game;
+									number_of_players = TWO_PLAYERS;
+									the_game = new GameElements(main_window, PLAYERS(number_of_players));  // creating everything the game consists of
+									// (re)start the game
+									if (!is_playing)
+									{
+										is_playing = true;
+									}
+									// After Game Over
+									else if (!the_game->get_game_state())
+									{
+										is_playing = true;
+										the_game->reset_tanks();
+										the_game->reset_rounds();
+										the_game->game_turn_on();
+									}
+									break;
+								case 1:
+									delete the_game;
+									number_of_players = THREE_PLAYERS;
+									the_game = new GameElements(main_window, PLAYERS(number_of_players));  // creating everything the game consists of
+									// (re)start the game
+									if (!is_playing)
+									{
+										is_playing = true;
+									}
+									// After Game Over
+									else if (!the_game->get_game_state())
+									{
+										is_playing = true;
+										the_game->reset_tanks();
+										the_game->reset_rounds();
+										the_game->game_turn_on();
+									}
+									break;
+								case 2:
+									delete the_game;
+									number_of_players = FOUR_PLAYERS;
+									the_game = new GameElements(main_window, PLAYERS(number_of_players));  // creating everything the game consists of
+									// (re)start the game
+									if (!is_playing)
+									{
+										is_playing = true;
+									}
+									// After Game Over
+									else if (!the_game->get_game_state())
+									{
+										is_playing = true;
+										the_game->reset_tanks();
+										the_game->reset_rounds();
+										the_game->game_turn_on();
+									}
+									break;
+								case 3:
+									main_window.close();
+									break;
 							}
+							break;
 						case sf::Keyboard::LControl:
 							is_playing = false;
+							break;
 					default:
 						break;
 					}
@@ -164,7 +166,10 @@ int main()
 			main_window.draw(gameOverMessage);
 			
 		}
-		menu.draw(main_window);
+		if (!is_playing)
+		{
+			menu.draw(main_window);
+		}
 		main_window.display();
 	}
 
