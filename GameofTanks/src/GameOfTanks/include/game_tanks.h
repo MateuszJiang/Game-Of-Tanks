@@ -1,8 +1,6 @@
 #pragma once
-#include "pch.h"
+
 #include "tank.h"
-
-
 
 /*
 	THIS CLASS STORES THE TANKS AND ALLOWS THEM TO BE USED IN MAIN
@@ -28,7 +26,6 @@ public:
 	sf::FloatRect get_bounds_of_tank(TANK);
 
 	Tank &operator[](TANK);
-
 };
 
 

@@ -1,8 +1,6 @@
 #pragma once
 
-#include "pch.h"
 #include "universal.h"
-
 
 /*
 	DATA OF EACH ROUND

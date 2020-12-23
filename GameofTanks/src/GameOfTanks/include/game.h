@@ -1,5 +1,7 @@
 #pragma once
-#include "pch.h"
+
+#include <SFML/Graphics.hpp>
+
 #include "map.h"
 #include "game_rounds.h"
 #include "game_tanks.h"

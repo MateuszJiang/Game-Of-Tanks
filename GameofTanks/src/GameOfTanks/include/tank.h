@@ -1,11 +1,9 @@
 #pragma once
+#include "universal.h"
 
 /*
 	THIS CLASS HAS DATA OF EACH TANK AND DRAWS IT
 */
-
-#include "pch.h"
-#include "universal.h"
 
 #ifndef TANK_DRAWER_H_
 #define TANK_DRAWER_H_

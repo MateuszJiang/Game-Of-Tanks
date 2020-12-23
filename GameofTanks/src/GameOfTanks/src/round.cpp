@@ -1,6 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "../include/round.h"
+#include "../include/Collision.h"
 
 int Round::counter()
 {

@@ -1,8 +1,5 @@
 #pragma once
-#include "pch.h"
 #include "round.h"
-
-
 
 /*
 	THIS CLASS STORES THE TANKS AND ALLOWS THEM TO BE USED IN MAIN

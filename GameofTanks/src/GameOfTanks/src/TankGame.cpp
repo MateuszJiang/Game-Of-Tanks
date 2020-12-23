@@ -1,6 +1,9 @@
 #pragma once
 #include "pch.h"
 
+#include "../include/game.h"
+#include "../include/menu.h"
+
 int main()
 {
 	// creating the window displaying the game
@@ -29,7 +32,6 @@ int main()
 	gameOverMessage.setFillColor(sf::Color::Yellow);
 	gameOverMessage.setString("           Game over !!! \n Press Enter to Play Again");
 
-
 	sf::Text PlayerOneMsg;
 	PlayerOneMsg.setFont(font);
 	PlayerOneMsg.setCharacterSize(50);
@@ -44,7 +46,6 @@ int main()
 	PlayerTwoMsg.setFillColor(sf::Color::White);
 	PlayerTwoMsg.setString("     Player Two:\nArrows + RCtrl");
 
-
 	GameElements *the_game;
 	the_game = new GameElements();  // initialization so the compiler does not cry
 	PLAYERS number_of_players;
@@ -56,7 +57,6 @@ int main()
 		sf::Event event;
 		while (main_window.pollEvent(event))
 		{
-
 			switch (event.type)
 			{
 				case sf::Event::KeyReleased:

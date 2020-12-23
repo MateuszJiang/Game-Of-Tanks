@@ -1,11 +1,12 @@
 #pragma once
 #include "pch.h"
 
+#include "../include/menu.h"
+
 Menu::Menu()
 {
 	if (!font.loadFromFile("used/fonts/ComicSans.ttf"))
 	{
-		
 		(2);
 	}
 

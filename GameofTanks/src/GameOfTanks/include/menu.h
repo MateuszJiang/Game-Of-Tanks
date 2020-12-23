@@ -1,7 +1,7 @@
 #pragma once
-#include "pch.h"
+#include <SFML/Graphics.hpp>
 
-
+#include "universal.h"
 
 class Menu
 {

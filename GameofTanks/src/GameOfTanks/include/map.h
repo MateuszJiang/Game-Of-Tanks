@@ -1,10 +1,10 @@
 #pragma once
+#include <SFML/Graphics.hpp>
+
+#include "universal.h"
 
 #ifndef MAP_H_
 #define MAP_H_
-
-#include "pch.h"
-#include "universal.h"
 
 class Map
 {

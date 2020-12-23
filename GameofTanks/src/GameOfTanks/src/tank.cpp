@@ -1,6 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "../include/tank.h"
+#include "../include/Collision.h"
 
 // constructors
 Tank::Tank(std::string name) : tank_name(name), ID(tank_counter()), is_playing(true), health(TANK_HEALTH)

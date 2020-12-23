@@ -1,6 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "../include/game.h"
+#include "../include/Collision.h"
 
 GameElements::GameElements(sf::RenderWindow& rw, PLAYERS pl)
 {
