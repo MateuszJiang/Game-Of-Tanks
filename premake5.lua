@@ -34,6 +34,7 @@ project "GameOfTanks"
 	includedirs
 	{
 		"%{prj.name}/vendor/SFML-2.5.1/include",
+		"%{prj.name}/vendor/spdlog/include"
 	}
 
 	libdirs
@@ -46,7 +47,7 @@ project "GameOfTanks"
 		systemversion "latest"
 
 	filter "configurations:Debug"
-		defines "HZ_DEBUG"
+		defines "STATE_DEBUG"
 		runtime "Debug"
 		optimize "On"
 
@@ -59,7 +60,7 @@ project "GameOfTanks"
 		}
 
 	filter "configurations:Release"
-		defines "HZ_RELEASE"
+		defines "STATE_RELEASE"
 		runtime "Release"
 		optimize "On"
 
@@ -72,7 +73,7 @@ project "GameOfTanks"
 		}
 
 	filter "configurations:Dist"
-		defines "HZ_DIST"
+		defines "STATE_DIST"
 		runtime "Release"
 		optimize "On"
 

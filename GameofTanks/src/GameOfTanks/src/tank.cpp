@@ -6,34 +6,36 @@
 // constructors
 Tank::Tank(std::string name) : tank_name(name), ID(tank_counter()), is_playing(true), health(TANK_HEALTH)
 {
-	std::cout << "Con1" << std::endl;
+	STATE_INFO("Tank constructor !");
 	createTank();
 }
 
 Tank::Tank() : tank_name("empty_tank"), is_playing(false), health(0), ID(tank_counter())
 {
-	std::cout << "Con2" << std::endl;
+	STATE_INFO("Tank default constructor !");
 }
 
 void Tank::operator=(Tank* other)
 {
+	STATE_INFO("Tank copy assigment constructor !");
 	health = other->health;
 	*tank_texture = std::move(*other->tank_texture);
 	is_playing = other->is_playing;
 	ID = other->ID;
 	tank_name = other->tank_name;
 	tank = other->tank;
-	std::cout << "Con=" << std::endl;
 }
 
 
-Tank::Tank(const Tank* other) : ID(other->ID), tank_name(other->tank_name), tank(other->tank), tank_texture(new sf::Texture(*other->tank_texture)), is_playing(other->is_playing), health(other->health) { std::cout << "CopyCon" << std::endl; }
+Tank::Tank(const Tank* other) : ID(other->ID), tank_name(other->tank_name), tank(other->tank), tank_texture(new sf::Texture(*other->tank_texture)), is_playing(other->is_playing), health(other->health) 
+{
+	STATE_INFO("Tank copy constructor !");
+}
 
 
 // getters
 TANK Tank::get_id()
 {
-	std::cout << ID << std::endl;
 	switch (ID)
 	{
 	case 0:
@@ -101,6 +103,7 @@ void Tank::set_position(float x, float y)
 // Used in constructors
 void Tank::createTank()
 {
+	STATE_INFO("createTank method");
 	tank_texture = new sf::Texture();
 	// take tank texture
 	switch (get_id())
@@ -187,10 +190,12 @@ void Tank::move(MOVE way)
 
 void Tank::destroyed()  // if the tank is hit player cannot do anything
 {
+	STATE_INFO("TANK destroyed");
 	is_playing = false;
 }
 
 void Tank::reset()
 { 
+	STATE_INFO("TANK reset");
 	is_playing = true; 
 }
