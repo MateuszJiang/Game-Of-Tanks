@@ -33,6 +33,7 @@ public:
 
 	void createTank();						 // Creation of the tank
 	void set_position(float,float);
+	void set_position(sf::Vector2f);
 
 	// getters
 	sf::Sprite  *getTank();				// Sprite of Tank

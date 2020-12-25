@@ -100,6 +100,11 @@ void Tank::set_position(float x, float y)
 	tank.setPosition(x, y);
 }
 
+void Tank::set_position(sf::Vector2f xy)
+{
+	tank.setPosition(xy);
+}
+
 // Used in constructors
 void Tank::createTank()
 {
@@ -109,18 +114,20 @@ void Tank::createTank()
 	switch (get_id())
 	{
 	case ONE:
+	{
+		if ( !Collision::CreateTextureAndBitmask(*tank_texture, "used/Textures/tank_1.png") )
 		{
-			if ( !Collision::CreateTextureAndBitmask(*tank_texture, "used/Textures/tank_1.png") )
-			{
-				exit(3);
-			}
-			tank.setTexture(*tank_texture);   // assign texture to the tank
-			break;
+			STATE_CORE_ERROR("Problem with reading texture for tank {0}", get_id());
+			exit(3);
 		}
+		tank.setTexture(*tank_texture);   // assign texture to the tank
+		break;
+	}
 	case TWO:
 	{
 		if (!Collision::CreateTextureAndBitmask(*tank_texture, "used/Textures/tank_2.png"))
 		{
+			STATE_CORE_ERROR("Problem with reading texture for tank {0}", get_id());
 			exit(3);
 		}
 		tank.setTexture(*tank_texture);   // assign texture to the tank
@@ -130,6 +137,7 @@ void Tank::createTank()
 	{
 		if (!Collision::CreateTextureAndBitmask(*tank_texture, "used/Textures/tank_3.png"))
 		{
+			STATE_CORE_ERROR("Problem with reading texture for tank {0}", get_id());
 			exit(3);
 		}
 		tank.setTexture(*tank_texture);   // assign texture to the tank
@@ -139,6 +147,7 @@ void Tank::createTank()
 	{
 		if (!Collision::CreateTextureAndBitmask(*tank_texture, "used/Textures/tank_4.png"))
 		{
+			STATE_CORE_ERROR("Problem with reading texture for tank {0}", get_id());
 			exit(3);
 		}
 		tank.setTexture(*tank_texture);   // assign texture to the tank

@@ -88,16 +88,28 @@ void GameElements::interaction(TANK tank)
 		{
 			if (check_if_tank_intersects(tank))
 			{
-				tanks[tank].set_position(300.f, 300.f);
+				tanks[tank].set_position(TANK_ONE_DEFAULT_POSITION);
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !check_if_tank_intersects(tank))
+			{
+				STATE_INFO("Tank {0} moved {1}", tank, FORWARD);
 				tanks[tank].move(FORWARD);
+			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && !check_if_tank_intersects(tank))
+			{
+				STATE_INFO("Tank {0} moved {1}", tank, BACKWARD);
 				tanks[tank].move(BACKWARD);
+			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !check_if_tank_intersects(tank))
+			{
+				STATE_INFO("Tank {0} turning {1}", tank, LEFT);
 				tanks[tank].turn(LEFT);
+			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !check_if_tank_intersects(tank))
+			{ 
+				STATE_INFO("Tank {0} turning {1}", tank, RIGHT);
 				tanks[tank].turn(RIGHT);
+			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::RControl) && CLOCK.getElapsedTime().asMilliseconds() > 2500)
 			{
 				shoot(tank);
@@ -109,16 +121,28 @@ void GameElements::interaction(TANK tank)
 		{
 			if (check_if_tank_intersects(tank))
 			{
-				tanks[tank].set_position(2800.f, 1800.f);
+				tanks[tank].set_position(TANK_TWO_DEFAULT_POSITION);
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+			{
+				STATE_INFO("Tank {0} moved {1}", tank, FORWARD);
 				tanks[tank].move(FORWARD);
+			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+			{
+				STATE_INFO("Tank {0} moved {1}", tank, BACKWARD);
 				tanks[tank].move(BACKWARD);
+			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+			{
+				STATE_INFO("Tank {0} turning {1}", tank, LEFT);
 				tanks[tank].turn(LEFT);
+			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+			{
+				STATE_INFO("Tank {0} turning {1}", tank, RIGHT);
 				tanks[tank].turn(RIGHT);
+			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && CLOCK.getElapsedTime().asMilliseconds() > 2500)
 			{
 				shoot(tank);
