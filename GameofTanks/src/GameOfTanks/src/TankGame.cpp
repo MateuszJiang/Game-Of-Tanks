@@ -58,7 +58,7 @@ int main()
 	while (main_window.isOpen())
 	{
 		sf::Event event;
-		while (main_window.pollEvent(event))
+		while (main_window.pollEvent(event) && (!is_playing))
 		{
 			switch (event.type)
 			{
@@ -153,11 +153,16 @@ int main()
 			}
 		}
 
+		if (event.key.code == sf::Keyboard::LControl)
+		{
+			STATE_TRACE("Game Paused (LCtrl)");
+			is_playing = false;
+		}
 		main_window.clear(sf::Color::Black);
 
 		if (is_playing)
 		{
-			STATE_TRACE("Game On, drawing elements");
+			//STATE_TRACE("Game On, drawing elements");
 			the_game->draw_map();
 			the_game->draw_tanks();
 			the_game->draw_rounds();
@@ -165,7 +170,7 @@ int main()
 		}
 		if (!is_playing && the_game->get_game_state())
 		{
-			STATE_TRACE("Game Paused, drawing Pause message");
+			//STATE_TRACE("Game Paused, drawing Pause message");
 			main_window.draw(pauseMessage);
 			main_window.draw(PlayerOneMsg);
 			main_window.draw(PlayerTwoMsg);
@@ -173,13 +178,13 @@ int main()
 
 		if (!the_game->get_game_state())
 		{
-			STATE_TRACE("Game Over, drawing game over message");
+			//STATE_TRACE("Game Over, drawing game over message");
 			main_window.draw(gameOverMessage);
 			
 		}
 		if (!is_playing)
 		{
-			STATE_TRACE("Not playing, drawing main menu");
+			//STATE_TRACE("Not playing, drawing main menu");
 			menu.draw(main_window);
 		}
 		main_window.display();

@@ -88,6 +88,7 @@ void GameElements::interaction(TANK tank)
 		{
 			if (check_if_tank_intersects(tank))
 			{
+				STATE_TRACE("Tank {0} intersected", tank);
 				tanks[tank].set_position(TANK_ONE_DEFAULT_POSITION);
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !check_if_tank_intersects(tank))
@@ -112,6 +113,7 @@ void GameElements::interaction(TANK tank)
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::RControl) && CLOCK.getElapsedTime().asMilliseconds() > 2500)
 			{
+				STATE_INFO("Tank {0} shot a missle}", tank);
 				shoot(tank);
 				CLOCK.restart();
 			}
@@ -121,6 +123,7 @@ void GameElements::interaction(TANK tank)
 		{
 			if (check_if_tank_intersects(tank))
 			{
+				STATE_TRACE("Tank {0} intersected", tank);
 				tanks[tank].set_position(TANK_TWO_DEFAULT_POSITION);
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
@@ -145,12 +148,13 @@ void GameElements::interaction(TANK tank)
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && CLOCK.getElapsedTime().asMilliseconds() > 2500)
 			{
+				STATE_INFO("Tank {0} shot a missle}", tank);
 				shoot(tank);
 				CLOCK.restart();
 			}
 			break;
 		}
-	case THREE:
+	/*case THREE:
 		{
 			if (check_if_tank_intersects(tank))
 			{
@@ -191,7 +195,7 @@ void GameElements::interaction(TANK tank)
 				CLOCK.restart();
 			}
 			break;
-		}
+		}*/
 	}
 }
 
@@ -210,8 +214,10 @@ bool GameElements::check_if_tank_intersects(TANK tank)
 	{
 	case ONE:
 		if (Collision::PixelPerfectTest(*tanks[tank].getTank(), *tanks[TWO].getTank()))
+		{
 			STATE_INFO("Tank 1 collision.");
 			return true;
+		}
 		//if (Collision::PixelPerfectTest(*tanks[tank].getTank(), *tanks[THREE].getTank()))
 			//return true;
 		//if (Collision::PixelPerfectTest(*tanks[tank].getTank(), *tanks[FOUR].getTank()))
@@ -219,14 +225,16 @@ bool GameElements::check_if_tank_intersects(TANK tank)
 		break;
 	case TWO:
 		if (Collision::PixelPerfectTest(*tanks[tank].getTank(), *tanks[ONE].getTank()))
+		{
 			STATE_INFO("Tank 2 collision.");
 			return true;
+		}
 		//if (Collision::PixelPerfectTest(*tanks[tank].getTank(), *tanks[THREE].getTank()))
 			//return true;
 		//if (Collision::PixelPerfectTest(*tanks[tank].getTank(), *tanks[FOUR].getTank()))
 			//return true;
 		break;
-	case THREE:
+	/*case THREE:
 		if (Collision::PixelPerfectTest(*tanks[tank].getTank(), *tanks[TWO].getTank()))
 			return true;
 		if (Collision::PixelPerfectTest(*tanks[tank].getTank(), *tanks[ONE].getTank()))
@@ -241,7 +249,7 @@ bool GameElements::check_if_tank_intersects(TANK tank)
 			return true;
 		if (Collision::PixelPerfectTest(*tanks[tank].getTank(), *tanks[ONE].getTank()))
 			return true;
-		break;
+		break;*/
 	default:
 		break;
 	}
@@ -357,6 +365,7 @@ void GameElements::draw_rounds()
 
 void GameElements::reset_tanks()
 {
+	STATE_CORE_INFO("TANKS RESET");
 	tanks[ONE].set_position(300.f, 300.f);
 	tanks[TWO].set_position(2800.f, 1800.f);
 	tanks[THREE].set_position(2800.f, 300.f);
@@ -368,17 +377,26 @@ void GameElements::reset_tanks()
 
 	switch (Players)
 	{
-	case TWO_PLAYERS:
-		numberOfPlayers = 2;
-		break;
-	case THREE_PLAYERS:
-		numberOfPlayers = 3;
-		break;
-	case FOUR_PLAYERS:
-		numberOfPlayers = 4;
-		break;
-	default:
-		break;
+		case TWO_PLAYERS:
+		{
+			numberOfPlayers = 2;
+			STATE_CORE_INFO("GameElements::reset_tanks()  -> {0} players set", numberOfPlayers);
+			break;
+		}
+		case THREE_PLAYERS:
+		{
+			numberOfPlayers = 3;
+			STATE_CORE_INFO("GameElements::reset_tanks()  -> {0} players set", numberOfPlayers);
+			break;
+		}
+		case FOUR_PLAYERS:
+		{
+			numberOfPlayers = 4;
+			STATE_CORE_INFO("GameElements::reset_tanks()  -> {0} players set", numberOfPlayers);
+			break;
+		}
+		default:
+			break;
 	}
 }
 
