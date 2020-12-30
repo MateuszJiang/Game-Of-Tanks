@@ -17,6 +17,8 @@ private:
 public:
 	Tanks() {}
 	Tanks(const Tanks *other) { tanks = other->tanks; }  // copy constructor (maybe useful)
+	~Tanks() {}
+
 	void operator=(Tanks* other) { tanks = other->tanks; }
 
 	void add(std::string);			  // adding tanks

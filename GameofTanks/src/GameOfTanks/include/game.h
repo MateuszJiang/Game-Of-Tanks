@@ -19,16 +19,16 @@ private:
 	Tanks tanks;
 	Map map;
 
-	bool game_on = true;
+	bool game_on = false;
 
 public:
 	GameElements() {}
 	GameElements(sf::RenderWindow&, PLAYERS);
 	GameElements(GameElements*);
 
-	sf::Time set_up_clock() { return CLOCK.restart(); }
-	void game_turn_off() { game_on = false; }
-	void game_turn_on() { game_on = true; }
+	inline sf::Time set_up_clock() { return CLOCK.restart(); }
+	void game_turn_off();
+	void game_turn_on();
 
 	void interaction(TANK);										  //taking keyboard input so we can steer the tanks
 	void shoot(TANK);										      // handles the rounds shot by the tanks
@@ -46,5 +46,5 @@ public:
 	void reset_tanks();											  //Tanks go back to initial positions
 	void reset_rounds();
 
-	bool get_game_state() { return game_on; }					  // False if 1 tank left
+	bool is_the_game_currently_in_progress() { return game_on; }					  // False if 1 tank left
 };

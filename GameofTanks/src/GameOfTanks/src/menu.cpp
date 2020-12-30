@@ -7,7 +7,8 @@ Menu::Menu()
 {
 	if (!font.loadFromFile("used/fonts/ComicSans.ttf"))
 	{
-		(2);
+		STATE_CORE_ERROR("Reading of the font failed");
+		exit(2);
 	}
 
 	menu[0].setFont(font);

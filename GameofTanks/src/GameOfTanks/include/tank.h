@@ -29,7 +29,7 @@ public:
 	Tank(std::string);
 	Tank(const Tank*);
 	void operator=(Tank*);
-	~Tank() { ID = 0; }
+	~Tank();
 
 	void createTank();						 // Creation of the tank
 	void set_position(float,float);

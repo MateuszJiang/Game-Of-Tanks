@@ -76,9 +76,3 @@ Tank &Tanks::operator[](TANK x)
 		break;
 	}
 }
-
-
-
-
-
-

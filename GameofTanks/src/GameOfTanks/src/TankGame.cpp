@@ -3,6 +3,7 @@
 
 #include "../include/game.h"
 #include "../include/menu.h"
+#include "../include/menu_elements.h"
 
 int main()
 {
@@ -17,37 +18,17 @@ int main()
 
 	sf::Font font;
 	if (!font.loadFromFile("used/fonts/ComicSans.ttf"))
+	{
+		STATE_CORE_ERROR("Reading of the font failed");
 		return EXIT_FAILURE;
+	}
 
 	// Initialize the pause message
-	sf::Text pauseMessage;
-	pauseMessage.setFont(font);
-	pauseMessage.setCharacterSize(100);
-	pauseMessage.setPosition(MAIN_GAME_MESSAGE);
-	pauseMessage.setFillColor(sf::Color::Red);
-	pauseMessage.setString("Welcome to Game Of Tanks!\nPress enter to start the game");
-	pauseMessage.setStyle(sf::Text::Bold | sf::Text::Underlined);
-
-	sf::Text gameOverMessage;
-	gameOverMessage.setFont(font);
-	gameOverMessage.setCharacterSize(100);
-	gameOverMessage.setPosition(GAME_OVER_MESSAGE);
-	gameOverMessage.setFillColor(sf::Color::Yellow);
-	gameOverMessage.setString("           Game over !!! \n Press Enter to Play Again");
-
-	sf::Text PlayerOneMsg;
-	PlayerOneMsg.setFont(font);
-	PlayerOneMsg.setCharacterSize(50);
-	PlayerOneMsg.setPosition(PLAYER_ONE_MESSAGE);
-	PlayerOneMsg.setFillColor(sf::Color::White);
-	PlayerOneMsg.setString("Player One: \nWSAD + Spacebar");
-
-	sf::Text PlayerTwoMsg;
-	PlayerTwoMsg.setFont(font);
-	PlayerTwoMsg.setCharacterSize(50);
-	PlayerTwoMsg.setPosition(PLAYER_TWO_MESSAGE);
-	PlayerTwoMsg.setFillColor(sf::Color::White);
-	PlayerTwoMsg.setString("     Player Two:\nArrows + RCtrl");
+	sf::Text pauseMessage = GameMenu::GetPauseMessage(font);
+	sf::Text mainMessage = GameMenu::GetMainMessage(font);
+	sf::Text gameOverMessage = GameMenu::GetGameOverMessage(font);
+	sf::Text PlayerOneMsg = GameMenu::GetPlayerOneMsg(font);
+	sf::Text PlayerTwoMsg = GameMenu::GetPlayerTwoMsg(font);
 
 	GameElements *the_game;
 	the_game = new GameElements();  // initialization so the compiler does not cry
@@ -58,134 +39,138 @@ int main()
 	while (main_window.isOpen())
 	{
 		sf::Event event;
-		while (main_window.pollEvent(event) && (!is_playing))
+		while (main_window.pollEvent(event) && (!the_game->is_the_game_currently_in_progress()))
 		{
 			switch (event.type)
 			{
-				case sf::Event::KeyReleased:
+			case sf::Event::KeyReleased:
+			{
+				switch (event.key.code)
 				{
-					switch (event.key.code)
+				case sf::Keyboard::Up:
+					STATE_TRACE("Menu up!");
+					menu.MoveUp();
+					break;
+				case sf::Keyboard::Down:
+					STATE_TRACE("Menu down!");
+					menu.MoveDown();
+					break;
+				case sf::Keyboard::Enter:
+					switch (menu.GetPressedItem())
 					{
-						case sf::Keyboard::Up:
-							STATE_TRACE("Menu up!");
-							menu.MoveUp();
-							break;
-						case sf::Keyboard::Down:
-							STATE_TRACE("Menu down!");
-							menu.MoveDown();
-							break;
-						case sf::Keyboard::Enter:
-							switch (menu.GetPressedItem())
-							{
-								STATE_TRACE("Menu Enter!");
-								case 0:
-									STATE_TRACE("Menu 2 players option chosen!");
-									delete the_game;
-									number_of_players = TWO_PLAYERS;
-									the_game = new GameElements(main_window, PLAYERS(number_of_players));  // creating everything the game consists of
-									// (re)start the game
-									if (!is_playing)
-									{
-										is_playing = true;
-									}
-									// After Game Over
-									else if (!the_game->get_game_state())
-									{
-										is_playing = true;
-										the_game->reset_tanks();
-										the_game->reset_rounds();
-										the_game->game_turn_on();
-									}
-									break;
-								case 1:
-									delete the_game;
-									number_of_players = THREE_PLAYERS;
-									the_game = new GameElements(main_window, PLAYERS(number_of_players));  // creating everything the game consists of
-									// (re)start the game
-									if (!is_playing)
-									{
-										is_playing = true;
-									}
-									// After Game Over
-									else if (!the_game->get_game_state())
-									{
-										is_playing = true;
-										the_game->reset_tanks();
-										the_game->reset_rounds();
-										the_game->game_turn_on();
-									}
-									break;
-								case 2:
-									delete the_game;
-									number_of_players = FOUR_PLAYERS;
-									the_game = new GameElements(main_window, PLAYERS(number_of_players));  // creating everything the game consists of
-									// (re)start the game
-									if (!is_playing)
-									{
-										is_playing = true;
-									}
-									// After Game Over
-									else if (!the_game->get_game_state())
-									{
-										is_playing = true;
-										the_game->reset_tanks();
-										the_game->reset_rounds();
-										the_game->game_turn_on();
-									}
-									break;
-								case 3:
-									main_window.close();
-									break;
-							}
-							break;
-						case sf::Keyboard::LControl:
-							STATE_TRACE("Game Paused (LCtrl)");
-							is_playing = false;
-							break;
-					default:
+						STATE_TRACE("Menu Entered!");
+					case 0:
+						STATE_TRACE("Menu 2 players option chosen!");
+						delete the_game;
+						number_of_players = TWO_PLAYERS;
+						// creating everything the game consists of
+						the_game = new GameElements(main_window, PLAYERS(number_of_players));
+						// (re)start the game
+						GameMenu::restart_game_elements(the_game, is_playing);
+						break;
+					case 1:
+						delete the_game;
+						number_of_players = THREE_PLAYERS;
+						// creating everything the game consists of
+						the_game = new GameElements(main_window, PLAYERS(number_of_players));
+						// (re)start the game
+						GameMenu::restart_game_elements(the_game, is_playing);
+						break;
+					case 2:
+						delete the_game;
+						number_of_players = FOUR_PLAYERS;
+						// creating everything the game consists of
+						the_game = new GameElements(main_window, PLAYERS(number_of_players));
+						// (re)start the game
+						GameMenu::restart_game_elements(the_game, is_playing);
+						break;
+					case 3:
+						main_window.close();
 						break;
 					}
 					break;
-				}
-				case sf::Event::Closed:
-					main_window.close();
+				case sf::Keyboard::LControl:
+					STATE_TRACE("Game Paused (LCtrl)");
+					is_playing = false;
 					break;
+				default:
+					break;
+				}
+				break;
+			}
+			case sf::Event::Closed:
+				main_window.close();
+				break;
 			}
 		}
 
-		if (event.key.code == sf::Keyboard::LControl)
+		switch (event.type)
 		{
-			STATE_TRACE("Game Paused (LCtrl)");
-			is_playing = false;
+		case sf::Event::KeyReleased:
+			switch (event.key.code)
+			{
+			case sf::Keyboard::LControl:
+				STATE_CORE_INFO("LControl clicked");
+				if (the_game->is_the_game_currently_in_progress())
+				{
+					STATE_CORE_INFO("LControl used, game into pause/unpause switch");
+					switch (is_playing)
+					{
+					case true:
+						STATE_CORE_TRACE("pause/unpause switch result: game paused");
+						is_playing = false;
+						break;
+					case false:
+						STATE_CORE_TRACE("pause/unpause switch result: game unpaused");
+						is_playing = true;
+						break;
+					default:
+						STATE_WARN("switch (is_playing) went to default for some reason");
+						break;
+					}
+				}
+				break;
+			case sf::Keyboard::Escape:
+				STATE_TRACE("Game Stopped (Esc)");
+				the_game->game_turn_off();
+				is_playing = false;
+				break;
+			default:
+				break;
+			}
+		default:
+			break;
 		}
+
+
 		main_window.clear(sf::Color::Black);
 
-		if (is_playing)
+		if (is_playing && the_game->is_the_game_currently_in_progress())
 		{
-			//STATE_TRACE("Game On, drawing elements");
+			STATE_TRACE("Game On, drawing elements");
 			the_game->draw_map();
 			the_game->draw_tanks();
 			the_game->draw_rounds();
 			
 		}
-		if (!is_playing && the_game->get_game_state())
+		if (!is_playing && the_game->is_the_game_currently_in_progress())
 		{
-			//STATE_TRACE("Game Paused, drawing Pause message");
+			STATE_TRACE("Game Paused, drawing Pause message");
 			main_window.draw(pauseMessage);
 			main_window.draw(PlayerOneMsg);
 			main_window.draw(PlayerTwoMsg);
 		}
 
-		if (!the_game->get_game_state())
+		if (!the_game->is_the_game_currently_in_progress() && is_playing)
 		{
-			//STATE_TRACE("Game Over, drawing game over message");
+			STATE_TRACE("Game Over, drawing game over message");
 			main_window.draw(gameOverMessage);
-			
 		}
-		if (!is_playing)
+		if (!is_playing  && !the_game->is_the_game_currently_in_progress())
 		{
-			//STATE_TRACE("Not playing, drawing main menu");
+			STATE_TRACE("Not playing, drawing main menu");
 			menu.draw(main_window);
+			main_window.draw(mainMessage);
 		}
 		main_window.display();
 	}

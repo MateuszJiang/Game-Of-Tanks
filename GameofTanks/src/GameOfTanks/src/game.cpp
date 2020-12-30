@@ -15,7 +15,6 @@ GameElements::GameElements(sf::RenderWindow& rw, PLAYERS pl)
 		numberOfPlayers = 2;
 		tanks.add("One");
 		tanks.add("Two");
-		//tanks.add();
 		tanks.get_tank(ONE).setPosition(TANK_ONE_DEFAULT_POSITION);
 		tanks.get_tank(TWO).rotate(180);
 		tanks.get_tank(TWO).setPosition(TANK_TWO_DEFAULT_POSITION);
@@ -53,14 +52,26 @@ GameElements::GameElements(sf::RenderWindow& rw, PLAYERS pl)
 	game_turn_on();
 }
 
-GameElements::GameElements(GameElements* ref)
+void GameElements::game_turn_off() 
+{ 
+	STATE_INFO("Game Turned Off");
+	game_on = false; 
+}
+void GameElements::game_turn_on() 
 {
-	numberOfPlayers = ref->numberOfPlayers;
-	Players = ref->Players;
-	map = ref->map;
-	tanks = ref->tanks;
-	window = ref->window;
-	rounds = ref->rounds;
+	STATE_INFO("Game Turned On");
+	game_on = true; 
+}
+
+GameElements::GameElements(GameElements* pGameElements)
+{
+	STATE_CORE_WARN("Copy Constructor evoked!");
+	numberOfPlayers = pGameElements->numberOfPlayers;
+	Players = pGameElements->Players;
+	map = pGameElements->map;
+	tanks = pGameElements->tanks;
+	window = pGameElements->window;
+	rounds = pGameElements->rounds;
 }
 
 void GameElements::interaction(TANK tank)
@@ -366,14 +377,14 @@ void GameElements::draw_rounds()
 void GameElements::reset_tanks()
 {
 	STATE_CORE_INFO("TANKS RESET");
-	tanks[ONE].set_position(300.f, 300.f);
-	tanks[TWO].set_position(2800.f, 1800.f);
-	tanks[THREE].set_position(2800.f, 300.f);
-	tanks[FOUR].set_position(300.f, 1800.f);
+	tanks[ONE].set_position(TANK_ONE_DEFAULT_POSITION);
+	tanks[TWO].set_position(TANK_TWO_DEFAULT_POSITION);
+	//tanks[THREE].set_position(2800.f, 300.f);
+	//tanks[FOUR].set_position(300.f, 1800.f);
 	tanks[ONE].reset();
 	tanks[TWO].reset();
-	tanks[THREE].reset();
-	tanks[FOUR].reset();
+	//tanks[THREE].reset();
+	//tanks[FOUR].reset();
 
 	switch (Players)
 	{
@@ -383,6 +394,7 @@ void GameElements::reset_tanks()
 			STATE_CORE_INFO("GameElements::reset_tanks()  -> {0} players set", numberOfPlayers);
 			break;
 		}
+		/*
 		case THREE_PLAYERS:
 		{
 			numberOfPlayers = 3;
@@ -395,6 +407,7 @@ void GameElements::reset_tanks()
 			STATE_CORE_INFO("GameElements::reset_tanks()  -> {0} players set", numberOfPlayers);
 			break;
 		}
+		*/
 		default:
 			break;
 	}

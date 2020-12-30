@@ -32,6 +32,10 @@ Tank::Tank(const Tank* other) : ID(other->ID), tank_name(other->tank_name), tank
 	STATE_INFO("Tank copy constructor !");
 }
 
+Tank::~Tank()
+{
+	STATE_INFO("Tank Destructor !");
+}
 
 // getters
 TANK Tank::get_id()
