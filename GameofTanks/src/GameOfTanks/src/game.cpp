@@ -368,7 +368,12 @@ void GameElements::draw_rounds()
 	{
 		if(check_if_round_collides(rounds[i]))
 			change_round_rotation(rounds[i]);
-		rounds.get_round(i)->move(sf::Vector2f(cos(rounds.get_round(i)->getRotation() * 3.14159 / 180) * SPEED * 5, sin(rounds.get_round(i)->getRotation() * 3.14159 / 180) * SPEED * 5));
+
+		rounds.get_round(i)->move(sf::Vector2f( 
+			cos(rounds.get_round(i)->getRotation() * (float)(3.14159 / 180)) * SPEED * 5,
+			sin(rounds.get_round(i)->getRotation() * (float)(3.14159 / 180)) * SPEED * 5
+			));
+
 		window->draw(*rounds.get_round(i));
 	}
 }

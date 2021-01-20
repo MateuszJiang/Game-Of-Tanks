@@ -12,31 +12,34 @@ class Tank
 {
 private:
 
-	static int tank_counter();
+	static int tank_counter;
 	int ID;
 
 	int health;
 	std::string tank_name;
 	sf::Texture * tank_texture;
-	sf::Sprite tank;					//the tank itself
+	sf::Sprite tank_sprite;					//the tank itself
 	
 	bool is_playing = true;
 
 public:
 	TANK get_id();
-
-	Tank();
 	Tank(std::string);
-	Tank(const Tank*);
-	void operator=(Tank*);
 	~Tank();
+	Tank(const Tank&);
+	Tank(const Tank&&);
+	Tank& operator=(Tank&);
+	Tank& operator=(Tank&&);
+
+	Tank() = delete;
+	Tank(const Tank*) = delete;
 
 	void createTank();						 // Creation of the tank
 	void set_position(float,float);
 	void set_position(sf::Vector2f);
 
 	// getters
-	sf::Sprite  *getTank();				// Sprite of Tank
+	sf::Sprite *getTank();				// Sprite of Tank
 	const float get_rotation();
 
 	sf::FloatRect getBounds();				// bounds of Tank
@@ -56,6 +59,8 @@ public:
 
 	void destroyed();
 	void reset();
+
+	inline static int get_counter() { return tank_counter; }
 };
 
 

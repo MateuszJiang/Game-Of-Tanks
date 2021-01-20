@@ -13,7 +13,8 @@ class Round
 private:
 	static int counter();
 	int ID;
-	TANK tank_id;			//which tank shot it ?
+
+	TANK tank_id;			//which tank shot it?
 	sf::Texture *round_texture;
 	sf::Sprite round;
 public:

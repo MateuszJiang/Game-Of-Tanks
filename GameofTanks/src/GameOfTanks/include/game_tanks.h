@@ -15,7 +15,7 @@ private:
 	std::vector<Tank> tanks;      // vector of Tanks
 
 public:
-	Tanks() {}
+	Tanks() { tanks.reserve(4); }
 	Tanks(const Tanks *other) { tanks = other->tanks; }  // copy constructor (maybe useful)
 	~Tanks() {}
 
@@ -29,8 +29,6 @@ public:
 
 	Tank &operator[](TANK);
 };
-
-
 
 #endif // !GAME_TANKS
 

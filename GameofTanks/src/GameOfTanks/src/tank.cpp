@@ -3,38 +3,97 @@
 #include "../include/tank.h"
 #include "../include/Collision.h"
 
+int Tank::tank_counter = 0;
+
 // constructors
-Tank::Tank(std::string name) : tank_name(name), ID(tank_counter()), is_playing(true), health(TANK_HEALTH)
+Tank::Tank(std::string name) : tank_name(name), ID(tank_counter++), is_playing(true), health(TANK_HEALTH)
 {
 	STATE_INFO("Tank constructor !");
+	STATE_CORE_INFO("Tank counter: {0}", tank_counter);
 	createTank();
-}
-
-Tank::Tank() : tank_name("empty_tank"), is_playing(false), health(0), ID(tank_counter())
-{
-	STATE_INFO("Tank default constructor !");
-}
-
-void Tank::operator=(Tank* other)
-{
-	STATE_INFO("Tank copy assigment constructor !");
-	health = other->health;
-	*tank_texture = std::move(*other->tank_texture);
-	is_playing = other->is_playing;
-	ID = other->ID;
-	tank_name = other->tank_name;
-	tank = other->tank;
-}
-
-
-Tank::Tank(const Tank* other) : ID(other->ID), tank_name(other->tank_name), tank(other->tank), tank_texture(new sf::Texture(*other->tank_texture)), is_playing(other->is_playing), health(other->health) 
-{
-	STATE_INFO("Tank copy constructor !");
 }
 
 Tank::~Tank()
 {
+	tank_counter--;
 	STATE_INFO("Tank Destructor !");
+	STATE_CORE_INFO("Tank counter: {0}", tank_counter);
+}
+
+Tank::Tank(const Tank& copyTank)
+{
+	tank_counter++;
+	STATE_WARN("Copy constructor !!!");
+
+	ID = copyTank.ID;
+
+	health = copyTank.health;
+	tank_name = copyTank.tank_name;
+
+	tank_texture = new sf::Texture();
+	tank_texture = std::move(copyTank.tank_texture);
+
+	tank_sprite = copyTank.tank_sprite;
+
+	is_playing = copyTank.is_playing;
+}
+
+Tank::Tank(const Tank&& copyTank)
+{
+	tank_counter++;
+	STATE_WARN("Move constructor !!!");
+
+	ID = copyTank.ID;
+
+	health = copyTank.health;
+	tank_name = copyTank.tank_name;
+
+	tank_texture = new sf::Texture();
+	tank_texture = std::move(copyTank.tank_texture);
+
+	tank_sprite = copyTank.tank_sprite;
+
+	is_playing = copyTank.is_playing;
+}
+
+
+Tank& Tank::operator=(Tank& copyTank)
+{
+	tank_counter++;
+	STATE_WARN("Copy assignent constructor !");
+	ID = copyTank.ID;
+
+	health = copyTank.health;
+	tank_name = copyTank.tank_name;
+
+	delete tank_texture;
+	//tank_texture = new sf::Texture();
+	tank_texture = std::move(copyTank.tank_texture);
+
+	tank_sprite = copyTank.tank_sprite;
+
+	is_playing = copyTank.is_playing;
+
+	return *this;
+}
+
+Tank& Tank::operator=(Tank&& copyTank)
+{
+	STATE_WARN("Move assignent constructor !");
+	ID = copyTank.ID;
+
+	health = copyTank.health;
+	tank_name = copyTank.tank_name;
+
+	delete tank_texture;
+	tank_texture = new sf::Texture();
+	tank_texture = std::move(copyTank.tank_texture);
+
+	tank_sprite = copyTank.tank_sprite;
+
+	is_playing = copyTank.is_playing;
+
+	return *this;
 }
 
 // getters
@@ -53,60 +112,58 @@ TANK Tank::get_id()
 	default:
 		exit(5);
 	}
-	
 }
 
 sf::Sprite *Tank::getTank()
 {
-	return &tank;
+	return &tank_sprite;
 }
 
 const sf::Vector2f Tank::get_position()		// return the middle point of front of the tank (it's purely for shooting purposes)
 {
-	sf::Vector2f pos = tank.getPosition();
-	pos.y = pos.y + 298.3287 * sin(tank.getRotation()  * PI / 180);
-	pos.x = pos.x + 298.3287 * cos(tank.getRotation()  * PI / 180);
+	sf::Vector2f pos = tank_sprite.getPosition();
+	pos.y = pos.y + (float)298.3287 * sin(tank_sprite.getRotation()  * (float)(PI / 180));
+	pos.x = pos.x + (float)298.3287 * cos(tank_sprite.getRotation()  * (float)(PI / 180));
 	return pos;
 }
 
 const float Tank::get_rotation()
 {
-	return tank.getRotation();
+	return tank_sprite.getRotation();
 }
 
 float Tank::get_position_x()
 {
-	return tank.getPosition().x;
+	return tank_sprite.getPosition().x;
 }
 float Tank::get_position_y()
 {
-	return tank.getPosition().y;
+	return tank_sprite.getPosition().y;
 }
 
 
 sf::FloatRect Tank::getBounds()
 {
-	return tank.getGlobalBounds();
+	return tank_sprite.getGlobalBounds();
 }
-
 float Tank::get_local_bound_x()
 {
-	return tank.getLocalBounds().width;
+	return tank_sprite.getLocalBounds().width;
 }
 float Tank::get_local_bound_y()
 {
-	return tank.getLocalBounds().height;
+	return tank_sprite.getLocalBounds().height;
 }
 
 // setter
 void Tank::set_position(float x, float y)
 {
-	tank.setPosition(x, y);
+	tank_sprite.setPosition(x, y);
 }
 
 void Tank::set_position(sf::Vector2f xy)
 {
-	tank.setPosition(xy);
+	tank_sprite.setPosition(xy);
 }
 
 // Used in constructors
@@ -124,7 +181,7 @@ void Tank::createTank()
 			STATE_CORE_ERROR("Problem with reading texture for tank {0}", get_id());
 			exit(3);
 		}
-		tank.setTexture(*tank_texture);   // assign texture to the tank
+		tank_sprite.setTexture(*tank_texture);   // assign texture to the tank
 		break;
 	}
 	case TWO:
@@ -134,7 +191,7 @@ void Tank::createTank()
 			STATE_CORE_ERROR("Problem with reading texture for tank {0}", get_id());
 			exit(3);
 		}
-		tank.setTexture(*tank_texture);   // assign texture to the tank
+		tank_sprite.setTexture(*tank_texture);   // assign texture to the tank
 		break;
 	}
 	case THREE:
@@ -144,7 +201,7 @@ void Tank::createTank()
 			STATE_CORE_ERROR("Problem with reading texture for tank {0}", get_id());
 			exit(3);
 		}
-		tank.setTexture(*tank_texture);   // assign texture to the tank
+		tank_sprite.setTexture(*tank_texture);   // assign texture to the tank
 		break;
 	}
 	case FOUR:
@@ -154,19 +211,13 @@ void Tank::createTank()
 			STATE_CORE_ERROR("Problem with reading texture for tank {0}", get_id());
 			exit(3);
 		}
-		tank.setTexture(*tank_texture);   // assign texture to the tank
+		tank_sprite.setTexture(*tank_texture);   // assign texture to the tank
 		break;
 	}
 	}
 
-	tank.setTextureRect(sf::IntRect(0, 0, 290, 140));
-	tank.setOrigin(sf::Vector2f(0.f, 70.f));           // sets the operating point in the middle of back axis
-}
-
-int Tank::tank_counter()
-{
-	static int counter = 0;
-	return counter++;
+	tank_sprite.setTextureRect(sf::IntRect(0, 0, 290, 140));
+	tank_sprite.setOrigin(sf::Vector2f(0.f, 70.f));           // sets the operating point in the middle of back axis
 }
 
 void Tank::turn(TURN way)
@@ -175,11 +226,11 @@ void Tank::turn(TURN way)
 	{
 		if (way == LEFT)
 		{
-			Tank::tank.rotate(-SPEED);
+			Tank::tank_sprite.rotate(-SPEED);
 		}
 		else if (way == RIGHT)
 		{
-			Tank::tank.rotate(SPEED);
+			Tank::tank_sprite.rotate(SPEED);
 		}
 	}
 }
@@ -190,16 +241,20 @@ void Tank::move(MOVE way)
 	{
 		if (way == FORWARD)
 		{
-			Tank::tank.move(sf::Vector2f(cos(tank.getRotation() * PI / 180) * SPEED, sin(tank.getRotation() * PI / 180) * SPEED));
+			Tank::tank_sprite.move(sf::Vector2f(
+				cos( tank_sprite.getRotation() * (float)(PI / 180)) * SPEED, 
+				sin( tank_sprite.getRotation() * (float)(PI / 180)) * SPEED
+			));
 		}
-
 		else if (way == BACKWARD)
 		{
-			Tank::tank.move(sf::Vector2f(cos(tank.getRotation() * PI / 180) * -SPEED, sin(tank.getRotation() * PI / 180) * -SPEED));
+			Tank::tank_sprite.move(sf::Vector2f(
+				cos(tank_sprite.getRotation() * (float)(PI / 180)) * -SPEED,
+				sin(tank_sprite.getRotation() * (float)(PI / 180)) * -SPEED
+			));
 		}
 	}
 }
-
 
 void Tank::destroyed()  // if the tank is hit player cannot do anything
 {
