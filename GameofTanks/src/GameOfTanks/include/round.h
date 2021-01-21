@@ -2,9 +2,6 @@
 
 #include "universal.h"
 
-/*
-	DATA OF EACH ROUND
-*/
 #ifndef ROUNDS_H_
 #define ROUNDS_H_
 
@@ -18,7 +15,7 @@ private:
 	sf::Texture *round_texture;
 	sf::Sprite round;
 public:
-	Round(TANK,sf::Vector2<float>,float);
+	Round(const TANK, const sf::Vector2<float>, const float);
 
 	//setters
 	void set_rotation(float);
@@ -32,6 +29,4 @@ public:
 	float get_rotation();
 	TANK get_rounds_tank_id() { return tank_id; }
 };
-
-
 #endif // !ROUNDS_H_

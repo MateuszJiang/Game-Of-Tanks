@@ -9,8 +9,9 @@ int Round::counter()
 	return counter++;
 }
 
-Round::Round(TANK i, sf::Vector2<float> pos, float rot) : ID(counter())
+Round::Round(const TANK i, const sf::Vector2<float> pos, const float rot) : ID(counter())
 {
+	STATE_INFO("Round Created ! ID: {0}", i);
 	round_texture = new sf::Texture();
 	switch (i)
 	{
@@ -42,8 +43,6 @@ Round::Round(TANK i, sf::Vector2<float> pos, float rot) : ID(counter())
 	tank_id = i;
 }
 
-
-// getters
 sf::Sprite *Round::get_round()
 {
 	return &round;
@@ -67,7 +66,6 @@ float Round::get_rotation()
 	return round.getRotation();
 }
 
-// setters
 void Round::set_rotation(float t)
 {
 	round.setRotation(t);
@@ -77,4 +75,3 @@ void Round::set_position(sf::Vector2<float> t)
 {
 	round.setPosition(t);
 }
-

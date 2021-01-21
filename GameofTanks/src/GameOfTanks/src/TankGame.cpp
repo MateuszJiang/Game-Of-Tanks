@@ -65,7 +65,6 @@ int main()
 						number_of_players = TWO_PLAYERS;
 						// creating everything the game consists of
 						the_game = new GameElements(main_window, PLAYERS(number_of_players));
-						// (re)start the game
 						GameMenu::restart_game_elements(the_game, is_playing);
 						break;
 					case 1:
@@ -73,7 +72,6 @@ int main()
 						number_of_players = THREE_PLAYERS;
 						// creating everything the game consists of
 						the_game = new GameElements(main_window, PLAYERS(number_of_players));
-						// (re)start the game
 						GameMenu::restart_game_elements(the_game, is_playing);
 						break;
 					case 2:
@@ -81,7 +79,6 @@ int main()
 						number_of_players = FOUR_PLAYERS;
 						// creating everything the game consists of
 						the_game = new GameElements(main_window, PLAYERS(number_of_players));
-						// (re)start the game
 						GameMenu::restart_game_elements(the_game, is_playing);
 						break;
 					case 3:
@@ -142,12 +139,11 @@ int main()
 			break;
 		}
 
-
 		main_window.clear(sf::Color::Black);
 
 		if (is_playing && the_game->is_the_game_currently_in_progress())
 		{
-			STATE_TRACE("Game On, drawing elements");
+			//STATE_TRACE("Game On, drawing elements");
 			the_game->draw_map();
 			the_game->draw_tanks();
 			the_game->draw_rounds();
@@ -155,7 +151,7 @@ int main()
 		}
 		if (!is_playing && the_game->is_the_game_currently_in_progress())
 		{
-			STATE_TRACE("Game Paused, drawing Pause message");
+			//STATE_TRACE("Game Paused, drawing Pause message");
 			main_window.draw(pauseMessage);
 			main_window.draw(PlayerOneMsg);
 			main_window.draw(PlayerTwoMsg);
@@ -163,18 +159,17 @@ int main()
 
 		if (!the_game->is_the_game_currently_in_progress() && is_playing)
 		{
-			STATE_TRACE("Game Over, drawing game over message");
+			//STATE_TRACE("Game Over, drawing game over message");
 			main_window.draw(gameOverMessage);
 		}
 		if (!is_playing  && !the_game->is_the_game_currently_in_progress())
 		{
-			STATE_TRACE("Not playing, drawing main menu");
+			//STATE_TRACE("Not playing, drawing main menu");
 			menu.draw(main_window);
 			main_window.draw(mainMessage);
 		}
 		main_window.display();
 	}
-
 	return EXIT_SUCCESS;
 }
 

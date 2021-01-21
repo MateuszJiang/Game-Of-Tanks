@@ -66,8 +66,7 @@ Tank& Tank::operator=(Tank& copyTank)
 	health = copyTank.health;
 	tank_name = copyTank.tank_name;
 
-	delete tank_texture;
-	//tank_texture = new sf::Texture();
+	tank_texture = new sf::Texture();
 	tank_texture = std::move(copyTank.tank_texture);
 
 	tank_sprite = copyTank.tank_sprite;
@@ -85,7 +84,6 @@ Tank& Tank::operator=(Tank&& copyTank)
 	health = copyTank.health;
 	tank_name = copyTank.tank_name;
 
-	delete tank_texture;
 	tank_texture = new sf::Texture();
 	tank_texture = std::move(copyTank.tank_texture);
 
@@ -181,7 +179,7 @@ void Tank::createTank()
 			STATE_CORE_ERROR("Problem with reading texture for tank {0}", get_id());
 			exit(3);
 		}
-		tank_sprite.setTexture(*tank_texture);   // assign texture to the tank
+		tank_sprite.setTexture(*tank_texture);
 		break;
 	}
 	case TWO:
@@ -191,7 +189,7 @@ void Tank::createTank()
 			STATE_CORE_ERROR("Problem with reading texture for tank {0}", get_id());
 			exit(3);
 		}
-		tank_sprite.setTexture(*tank_texture);   // assign texture to the tank
+		tank_sprite.setTexture(*tank_texture);
 		break;
 	}
 	case THREE:
@@ -201,7 +199,7 @@ void Tank::createTank()
 			STATE_CORE_ERROR("Problem with reading texture for tank {0}", get_id());
 			exit(3);
 		}
-		tank_sprite.setTexture(*tank_texture);   // assign texture to the tank
+		tank_sprite.setTexture(*tank_texture);
 		break;
 	}
 	case FOUR:
@@ -211,13 +209,13 @@ void Tank::createTank()
 			STATE_CORE_ERROR("Problem with reading texture for tank {0}", get_id());
 			exit(3);
 		}
-		tank_sprite.setTexture(*tank_texture);   // assign texture to the tank
+		tank_sprite.setTexture(*tank_texture);
 		break;
 	}
 	}
 
 	tank_sprite.setTextureRect(sf::IntRect(0, 0, 290, 140));
-	tank_sprite.setOrigin(sf::Vector2f(0.f, 70.f));           // sets the operating point in the middle of back axis
+	tank_sprite.setOrigin(sf::Vector2f(0.f, 70.f));// sets the operating point in the middle of back axis
 }
 
 void Tank::turn(TURN way)
@@ -256,7 +254,7 @@ void Tank::move(MOVE way)
 	}
 }
 
-void Tank::destroyed()  // if the tank is hit player cannot do anything
+void Tank::destroyed()  // if the tank is destroyed player cannot do anything
 {
 	STATE_INFO("TANK destroyed");
 	is_playing = false;

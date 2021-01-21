@@ -21,6 +21,8 @@
 
 #define TANK_ONE_DEFAULT_POSITION sf::Vector2f(500.f, 500.f)
 #define TANK_TWO_DEFAULT_POSITION sf::Vector2f(1800.f, 800.f)
+#define TANK_THREE_DEFAULT_POSITION sf::Vector2f(500.f, 800.f)
+#define TANK_FOUR_DEFAULT_POSITION sf::Vector2f(1800.f, 500.f)
 
 enum TURN { LEFT, RIGHT };
 enum MOVE { FORWARD, BACKWARD };
